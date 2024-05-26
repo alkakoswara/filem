@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Movie Website | Animated Landing Page</title>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">Filem</a>
+        <ul class="nav">
+            <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+            <li><a href="series.html">Series</a></li>
+            <li><a href="film.html">Film</a></li>
+            <li><a href="anime.html">Anime</a></li>
+            <li><a href="myfav.html">My Favorites</a></li>
+        </ul>
+        <div class="search">
+            <input type="text" placeholder="Search" />
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </div>
+    </header>
+    <div class="banner">
+        <div class="content active">
+            <h1 class="header-title" id="title">
+                Pokemon GO
+            </h1>
+            <h4>
+                <span class="year" id="year">2022</span>
+                <span class="rating"><i id="ageRating">15+</i></span>
+                <span class="duration" id="minute">23 Min</span>
+                <span class="genre" id="type">Anime</span>
+            </h4>
+            <p class="synopsis" id="synopsis">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptate, 
+                dolor porro? Fuga itaque nemo deleniti culpa quis hic exercitationem sit vel dicta. Veritatis,
+                excepturi hic nostrum possimus omnis ipsa dolor?
+            </p>
+            <div class="button">
+                <a href="#"><i class="fa fa-play" aria-hidden="true"></i> Watch</a>
+                <a href="#"><i class="fa fa-plus" aria-hidden="true"></i> My Favorites</a>
+            </div>
+        </div>
+        <div class="carousel-box">
+            <div class="carousel">
+            </div>
+        </div>
+        <a href="#" class="play" onClick="toggleVideo();">
+        <i class="fa fa-play-circle" aria-hidden="true"></i> Watch Trailer</a>
+        <ul class="sci">
+            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+        </ul>
+    </div>
+    <div class="trailer">
+        <video controls> 
+            <source src="./assets/NetflixIntro.mp4" type="video/mp4">
+        </video>
+        <img 
+            class="close" 
+            src="./image/close.png" 
+            alt=""
+            onClick = "toggleVideo();"
+        />
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        $(document).ready(function(){
+            var data = [
+                {
+                    title: "Mobile Suit Gundam: The Witch from Mercury",
+                    year: "2022",
+                    ageRating: "15+",
+                    minute: "23",
+                    type: "Anime",
+                    image: "./image/GundamWitchPotrait.jpg",
+                    synopsis: "Synopsis for Gundam Witch..."
+                },
+                {
+                    title: "Rick and Morty",
+                    year: "2022",
+                    ageRating: "18+",
+                    minute: "22",
+                    type: "Animation",
+                    image: "./image/RickAndMorty.jpg",
+                    synopsis: "Synopsis for Rick and Morty..."
+                },
+                {
+                    title: "The Batman",
+                    year: "2021",
+                    ageRating: "13+",
+                    minute: "120",
+                    type: "Action",
+                    image: "./image/BatManPoster.jpg",
+                    synopsis: "Synopsis for The Batman..."
+                }
+            ];
+
+            function createCarouselItems() {
+                var carousel = $('.carousel');
+                var carouselContent = '';
+                data.forEach(function(item, index) {
+                    carouselContent += '<div class="carousel-item" data-index="' + index + '"><img src="' + item.image + '" alt="' + item.title + '"></div>';
+                });
+                carousel.html(carouselContent);
+                carousel.carousel();
+            }
+
+            function updateContent(index) {
+                var item = data[index];
+                $('#title').text(item.title);
+                $('#year').text(item.year);
+                $('#ageRating').html('<i>' + item.ageRating + '</i>');
+                $('#minute').text(item.minute + " Min");
+                $('#type').text(item.type);
+                $('#synopsis').text(item.synopsis);
+            }
+
+            // Initialize carousel items
+            createCarouselItems();
+
+            // Set initial data for the first item
+            var initialActiveIndex = $('.carousel-item.active').data('index');
+            updateContent(initialActiveIndex);
+
+            // Event listener for carousel slide change
+            $('.carousel').on('mousemove', function(event) {
+                var activeIndex = $('.carousel-item.active').data('index');
+                updateContent(activeIndex);
+            });
+
+            $('.carousel').on('click', function(event) {
+                var activeIndex = $('.carousel-item.active').data('index');
+                updateContent(activeIndex);
+            });
+
+
+        });
+    </script>
+</body>
+</html>
