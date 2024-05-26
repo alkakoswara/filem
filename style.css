@@ -124,10 +124,16 @@ header{
     transition: 0.5s;
 }
 
-.header-title{
+.header-title {
     color: #fff;
     font-weight: 600;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2
 }
+
 
 .movie-title{
     max-width: 250px;
