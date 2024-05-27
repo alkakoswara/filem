@@ -6,16 +6,62 @@
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        
+        body {
+            background: #2a2a2a !important;
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+        .trailer {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%,-50%) !important;
+            z-index: 100 !important;
+            width: 100% !important;
+            height: 100% !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            backdrop-filter: blur(20px) !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            transition: 0.5s !important;
+        }
+
+        .trailer.active {
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .trailer video {
+            width: 800px !important;
+            height: 500px !important;
+            border: 5px solid rgba(255, 255, 255, 0.5) !important;
+        }
+
+        .trailer .fa {
+            position: absolute !important;
+            top: 50px !important;
+            right: 100px !important;
+            color: #ffffff !important;
+            font-size: 30px !important;
+            cursor: pointer !important;
+        }
+    </style>
     <title>Movie Website | Animated Landing Page</title>
 </head>
 <body>
     <header>
         <a href="#" class="logo">Filem</a>
         <ul class="nav">
-            <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i></a></li>
-            <li><a href="series.html">Series</a></li>
-            <li><a href="film.html">Film</a></li>
-            <li><a href="anime.html">Anime</a></li>
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-home" aria-hidden="true"></i> Home
+                </a>
+            </li>
             
         </ul>
         <div class="search">
@@ -40,20 +86,18 @@
                 excepturi hic nostrum possimus omnis ipsa dolor?
             </p>
             <div class="button">
-                <a href="#"><i class="fa fa-play" aria-hidden="true"></i> Watch</a>
-                
+                <a href="#" onClick="toggleVideo();"><i class="fa fa-play" aria-hidden="true"></i> Watch Trailer</a>
+                <a href="#" id="btn-detail" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Detail</a>
             </div>
         </div>
         <div class="carousel-box">
             <div class="carousel">
             </div>
         </div>
-        <a href="#" class="play" onClick="toggleVideo();">
-        <i class="fa fa-play-circle" aria-hidden="true"></i> Watch Trailer</a>
         <ul class="sci">
-            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-            <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.facebook.com/cinema21/?locale=id_ID"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.instagram.com/netflixid/"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.youtube.com/@WindahBasudara"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
         </ul>
     </div>
     <div class="trailer">
@@ -72,6 +116,7 @@
     <script src="script.js"></script>
     <script>
         $(document).ready(function(){
+            // AMBIL DATA ARRAY JSON 
             var data = [
                 {
                     title: "Gundam: The Witch from Mercury",
@@ -80,7 +125,9 @@
                     minute: "23",
                     type: "Anime",
                     image: "./image/GundamWitchPotrait.jpg",
-                    synopsis: "Seorang gadis berhati tulus dari planet terpencil, Merkurius. Mendaftar masuk ke sebuah sekolah yang dikelola oleh perusahaan penguasa industri mobile suit."
+                    synopsis: "Seorang gadis berhati tulus dari planet terpencil, Merkurius. Mendaftar masuk ke sebuah sekolah yang dikelola oleh perusahaan penguasa industri mobile suit.",
+                    trailer: ".video",
+                    btnDetail: "anime.html",
                 },
                 {
                     title: "Rick and Morty",
@@ -89,7 +136,8 @@
                     minute: "23",
                     type: "Series",
                     image: "./image/RickAndMorty.jpg",
-                    synopsis: "Serial ini mengikuti kesialan Rick Sanchez , seorang ilmuwan gila yang sinis, dan cucunya yang baik hati namun cerewet, Morty Smith , yang membagi waktu mereka antara kehidupan rumah tangga dan petualangan antardimensi yang terjadi di realitas yang jumlahnya tak terbatas, sering kali bepergian ke planet lain."
+                    synopsis: "Serial ini mengikuti kesialan Rick Sanchez , seorang ilmuwan gila yang sinis, dan cucunya yang baik hati namun cerewet, Morty Smith , yang membagi waktu mereka antara kehidupan rumah tangga dan petualangan antardimensi yang terjadi di realitas yang jumlahnya tak terbatas, sering kali bepergian ke planet lain.",
+                    btnDetail: "series.html",
                 },
                 {
                     title: "The Batman",
@@ -98,20 +146,28 @@
                     minute: "120",
                     type: "Film",
                     image: "./image/BatManPoster.jpg",
-                    synopsis: "Upaya Batman memburu sesosok pembunuh membawanya ke dunia kriminal yang kelam di Gotham City dan terkait erat dengan penguasa elit di Gotham City daripada yang dia bayangkan    "
+                    synopsis: "Upaya Batman memburu sesosok pembunuh membawanya ke dunia kriminal yang kelam di Gotham City dan terkait erat dengan penguasa elit di Gotham City daripada yang dia bayangkan",
+                    btnDetail: "film.html",
                 }
             ];
 
+            // function Looping data carousel set ke html
             function createCarouselItems() {
                 var carousel = $('.carousel');
                 var carouselContent = '';
+
+                console.log('carousel content before: ', carouselContent);
                 data.forEach(function(item, index) {
+                    // masukkin data looping ke dalam variable carouselContent
                     carouselContent += '<div class="carousel-item" data-index="' + index + '"><img src="' + item.image + '" alt="' + item.title + '"></div>';
                 });
+
                 carousel.html(carouselContent);
+                console.log('carousel content after: ', carouselContent);
                 carousel.carousel();
             }
 
+            // Update content untuk set ke html
             function updateContent(index) {
                 var item = data[index];
                 $('#title').text(item.title);
@@ -120,16 +176,19 @@
                 $('#minute').text(item.minute + " Min");
                 $('#type').text(item.type);
                 $('#synopsis').text(item.synopsis);
+
+                $('#btn-detail').attr('href', item.btnDetail);
             }
 
-            // Initialize carousel items
+            // menggunakan / panggil function untuk membuat carousel diset ke html
             createCarouselItems();
 
-            // Set initial data for the first item
+            // Set data awalan ambil yang aktif menjadi di utama
             var initialActiveIndex = $('.carousel-item.active').data('index');
+            // gunakan function updateContent untuk set ke html dengan data yang sedang active
             updateContent(initialActiveIndex);
 
-            // Event listener for carousel slide change
+            // Event untuk melakukan perubahan data
             $('.carousel').on('mousemove', function(event) {
                 var activeIndex = $('.carousel-item.active').data('index');
                 updateContent(activeIndex);
